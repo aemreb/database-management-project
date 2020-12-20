@@ -152,7 +152,6 @@ public class Student implements IDBOperation{
         sql.append(surname);
         sql.append(",");
         sql.append("IDENTITY_NUM = ");
-        sql.append(identityNum);
         sql.append(",");
         sql.append("AGE = ");
         sql.append(age);
