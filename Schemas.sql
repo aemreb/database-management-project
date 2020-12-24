@@ -1,27 +1,27 @@
 
 create table bloodtype(
- recordid int,
+ recordid serial,
  bloodtype varchar(5),
  primary key (recordid)
 );
 
  create table membershiptype(
- recordid int not null,
+ recordid serial,
  type  varchar(25) not null,
  price bigint,
  primary key (recordid)
 );
 
 create table recordtype(
-    recordid int         not null,
+    recordid serial         not null,
     type     varchar(25) not null,
     primary key (recordid)
 );
 
 create table student(
- recordid int not null unique,
- createdatetime timestamp not null,
- modifieddatetime timestamp not null,
+ recordid serial not null,
+ createdatetime timestamp default current_timestamp,
+ modifieddatetime timestamp default current_timestamp,
  identitynum varchar(30) not null,
  name varchar(25) not null,
  surname varchar(25) not null,
@@ -34,10 +34,10 @@ create table student(
 );
 
 create table employee(
- recordid int not null unique,
+ recordid serial not null ,
  typeid int not null,
- createdatetime timestamp not null,
- modifieddatetime timestamp not null,
+ createdatetime timestamp default current_timestamp,
+ modifieddatetime timestamp default current_timestamp,
  identitynum varchar(30) not null,
  name varchar(25) not null,
  surname varchar(25) not null,
@@ -53,9 +53,9 @@ create table employee(
 );
 
  create table healthinfo(
- recordid int unique,
- createddatetime timestamp,
- modifieddatetimet timestamp,
+ recordid serial not null ,
+ createddatetime timestamp default current_timestamp,
+ modifieddatetimet timestamp default current_timestamp,
  recordtypeid int,
  recordvalue int,
  billofhealth boolean,
@@ -68,7 +68,7 @@ create table employee(
  );
 
  create table membership(
- recordid int unique,
+ recordid serial not null ,
  createddatetime timestamp,
  modifieddatetime timestamp,
  studentid int,
