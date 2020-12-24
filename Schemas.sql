@@ -1,16 +1,22 @@
 
 create table bloodtype(
  recordid int,
- bloodtype varchar(5));
+ bloodtype varchar(5),
+ primary key (recordid)
+);
 
  create table membershiptype(
  recordid int not null,
  type  varchar(25) not null,
- price bigint);
+ price bigint,
+ primary key (recordid)
+);
 
 create table recordtype(
- recordid int not null,
- type varchar(25) not null);
+    recordid int         not null,
+    type     varchar(25) not null,
+    primary key (recordid)
+);
 
 create table student(
  recordid int not null unique,
@@ -23,7 +29,9 @@ create table student(
  phone varchar(15) not null,
  emergencyphone varchar(15) not null,
  email varchar(15)not null unique,
- address varchar(25) not null);
+ address varchar(25) not null,
+ primary key (recordid)
+);
 
 create table employee(
  recordid int not null unique,
@@ -39,10 +47,13 @@ create table employee(
  email varchar(15),
  address varchar(25),
  salary bigint,
- offday int);
+ offday int,
+ primary key (recordid),
+ foreign key (typeid) references recordtype(recordid)
+);
 
  create table healthinfo(
- recorfid int unique,
+ recordid int unique,
  createddatetime timestamp,
  modifieddatetimet timestamp,
  recordtypeid int,
@@ -50,7 +61,11 @@ create table employee(
  billofhealth boolean,
  booltypeid int,
  height int,
- weight int);
+ weight int,
+ primary key (recordid),
+ foreign key (recordtypeid) references recordtype(recordid),
+ foreign key (booltypeid) references bloodtype(recordid)
+ );
 
  create table membership(
  recordid int unique,
@@ -61,4 +76,8 @@ create table employee(
  status boolean,
  starteddate timestamp,
  enddate timestamp,
- ispaid boolean);
+ ispaid boolean,
+ primary key (recordid),
+ foreign key (studentid) references student(recordid),
+ foreign key (membershiptypeid) references membershiptype(recordid)
+ );
