@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Membership  implements IDBOperation{
-    private String studentId;
+    private int studentId, recordId;
     private Date created, modified, startDate, endDate;
     private boolean statusId, isPaid;
     private int membershipTypeId;
@@ -15,11 +17,15 @@ public class Membership  implements IDBOperation{
     private Connection con = null;
     private Statement statement = null;
 
-    public String getStudentId() {
+    public int getRecordId() { return recordId; }
+
+    public void setRecordId(int recordId) { this.recordId = recordId; }
+
+    public int getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(String studentId) {
+    public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
 
@@ -85,7 +91,8 @@ public class Membership  implements IDBOperation{
 
         StringBuilder sql = new StringBuilder();
         sql.append( "INSERT INTO MEMBERSHIP ");
-        sql.append( "(STUDENT_ID, START_DATE, END_DATE, STATUS_ID, IS_PAID, MEMBERSHIP_TYPE_ID)");
+        sql.append( "(STUDENT_ID, STARTED_DATE, END_DATE, STATUS, ISPAID, MEMBERSHIP_TYPE_ID)");
+        sql.append(" VALUES(");
         sql.append(studentId);
         sql.append(",");
         sql.append(startDate);
@@ -98,8 +105,9 @@ public class Membership  implements IDBOperation{
         sql.append(",");
         sql.append(membershipTypeId);
         sql.append(",");
-
-
+        sql.append(")");
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
         try {
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
@@ -116,7 +124,7 @@ public class Membership  implements IDBOperation{
         sql.append( "STUDENT_ID= ");
         sql.append(studentId);
         sql.append(",");
-        sql.append("START_DATE = ");
+        sql.append("STARTED_DATE = ");
         sql.append(startDate);
         sql.append(",");
         sql.append("END_DATE = ");
@@ -125,11 +133,13 @@ public class Membership  implements IDBOperation{
         sql.append("STATUS_ID = ");
         sql.append(statusId);
         sql.append(",");
-        sql.append("IS_PAID = ");
+        sql.append("ISPAID = ");
         sql.append(isPaid);
         sql.append(",");
         sql.append("MEMBERSHIP_TYPE_ID = ");
         sql.append(membershipTypeId);
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
 
         try {
             statement =  con.createStatement();
@@ -155,7 +165,7 @@ public class Membership  implements IDBOperation{
 
     @Override
     public boolean Load(int recordId) {
-        String sql = "SELECT * FROM MEMBERSHIP WHERE RECORD ID = " + recordId;
+        String sql = "SELECT * FROM MEMBERSHIP WHERE RECORD_ID = " + recordId;
         try {
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -177,11 +187,11 @@ public class Membership  implements IDBOperation{
             return;
         try {
             while (rs.next()) {
-                studentId = rs.getString("STUDENT_ID");
-                startDate = rs.getDate("START_DATE");
+                studentId = rs.getInt("STUDENT_ID");
+                startDate = rs.getDate("STARTED_DATE");
                 endDate = rs.getDate("END_DATE");
                 statusId = rs.getBoolean("STATUS_ID");
-                isPaid = rs.getBoolean("IS_PAID");
+                isPaid = rs.getBoolean("ISPAID");
                 membershipTypeId = rs.getInt("MEMBERSHIP_TYPE_ID");
 
             }
@@ -189,4 +199,36 @@ public class Membership  implements IDBOperation{
             return;
         }
     }
+        /*girilen student num için öğrencinin kayıt bilgilerini ekrana getirir madde-5*/
+    public List<Membership> getMembershipsByStudentNum(int studentNum){
+        List<Membership> lstMembership = new ArrayList<Membership>();
+
+        String sql = "SELECT * FROM MEMBERSHIP M, STUDENT S WHERE M.STUDENT_ID = S.RECORD_ID AND S.STUDENT_NUM = " + studentNum;
+        try {
+            statement = con.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            if(result != null){
+                while (result.next()) {
+                    Membership m = new Membership();
+                    m.studentId = result.getInt("STUDENT_ID");
+                    m.startDate = result.getDate("STARTED_DATE");
+                    m.endDate = result.getDate("END_DATE");
+                    m.statusId = result.getBoolean("STATUS_ID");
+                    m.isPaid = result.getBoolean("ISPAID");
+                    m.membershipTypeId = result.getInt("MEMBERSHIP_TYPE_ID");
+                    lstMembership.add(m);
+                }
+
+            }
+        } catch (SQLException throwables) {
+            return lstMembership;
+        }
+
+
+        return lstMembership;
+
+    }
+
+
+
 }

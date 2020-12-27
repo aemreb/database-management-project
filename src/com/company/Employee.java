@@ -137,7 +137,8 @@ public class Employee implements IDBOperation {
 
         StringBuilder sql = new StringBuilder();
         sql.append( "INSERT INTO EMPLOYEE ");
-        sql.append( "(NAME, SURNAME,IDENTITY_NUM, TYPE_ID, AGE, PHONE, EMERGENY_PHONE, EMAIL, SALARY, OFFDAY)");
+        sql.append( "(NAME, SURNAME,IDENTITY_NUM, TYPE_ID, AGE, PHONE, EMERGENCY_PHONE, EMAIL, SALARY, OFFDAY)");
+        sql.append(" VALUES(");
         sql.append(name);
         sql.append(",");
         sql.append(surname);
@@ -157,6 +158,7 @@ public class Employee implements IDBOperation {
         sql.append(salary);
         sql.append(",");
         sql.append(offDay);
+        sql.append(")");
 
         try {
             statement =  con.createStatement();
@@ -180,7 +182,7 @@ public class Employee implements IDBOperation {
         sql.append("IDENTITY_NUM = ");
         sql.append(identityNum);
         sql.append(",");
-        sql.append("RECORDID = ");
+        sql.append("TYPE_ID = ");
         sql.append(typeId);
         sql.append(",");
         sql.append("AGE = ");
@@ -198,6 +200,8 @@ public class Employee implements IDBOperation {
         sql.append(salary);
         sql.append(",");
         sql.append(offDay);
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
 
         try {
             statement =  con.createStatement();
@@ -262,4 +266,22 @@ public class Employee implements IDBOperation {
         }
 
     }
+
+    public ResultSet salaryReport(int minSalary){
+        String sql = "SELECT SUM(SALARY), R.TYPE, E.TYPE_ID FROM EMPLOYEE E, RECORD_TYPE R WHERE E.TYPE_ID=R.RECORD_ID GROUP BY E.TYPE_ID, R.TYPE HAVING SUM(SALARY) > "+ minSalary;
+
+        try {
+            statement = con.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            if(result != null){
+                return result;
+
+            }
+        } catch (SQLException throwables) {
+            return null;
+        }
+        return null;
+    }
+
+
 }

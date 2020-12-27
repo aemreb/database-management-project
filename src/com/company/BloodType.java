@@ -33,11 +33,11 @@ public class BloodType implements IDBOperation{
     public boolean Insert() {
 
         StringBuilder sql = new StringBuilder();
-        sql.append( "INSERT INTO BLOODTYPE ");
-        sql.append( "(RECORD_ID, BLOOD_TYPE)");
-        sql.append(recordId);
-        sql.append(",");
+        sql.append( "INSERT INTO BLOOD_TYPE ");
+        sql.append( "(BLOOD_TYPE)");
+        sql.append(" VALUES(");
         sql.append(bloodType);
+        sql.append(")");
 
 
         try {
@@ -52,12 +52,11 @@ public class BloodType implements IDBOperation{
     @Override
     public boolean Update() {
         StringBuilder sql = new StringBuilder();
-        sql.append( "UPDATE BLOODTYPE SET ");
-        sql.append( "RECORD_ID = ");
-        sql.append(recordId);
-        sql.append(",");
+        sql.append( "UPDATE BLOOD_TYPE SET ");
         sql.append("BLOOD_TYPE = ");
         sql.append(bloodType);
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
 
 
         try {
@@ -71,7 +70,7 @@ public class BloodType implements IDBOperation{
 
     @Override
     public boolean Delete() {
-        String sql = "DELETE FROM BLOODTYPE WHERE RECORD_ID = " + recordId;
+        String sql = "DELETE FROM BLOOD_TYPE WHERE RECORD_ID = " + recordId;
         try {
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
@@ -84,7 +83,7 @@ public class BloodType implements IDBOperation{
 
     @Override
     public boolean Load(int recordId) {
-        String sql = "SELECT * FROM BLOODTYPE WHERE RECORD ID = " + recordId;
+        String sql = "SELECT * FROM BLOOD_TYPE WHERE RECORD ID = " + recordId;
         try {
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);

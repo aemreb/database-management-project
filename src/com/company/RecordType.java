@@ -33,12 +33,11 @@ public class RecordType implements IDBOperation {
     public boolean Insert() {
 
         StringBuilder sql = new StringBuilder();
-        sql.append( "INSERT INTO RECORDTYPE ");
-        sql.append( "(RECORD_ID, TYPE)");
-        sql.append(recordId);
-        sql.append(",");
+        sql.append( "INSERT INTO RECORD_TYPE ");
+        sql.append( "(TYPE)");
+        sql.append(" VALUES(");
         sql.append(type);
-
+        sql.append(")");
 
         try {
             statement =  con.createStatement();
@@ -52,12 +51,11 @@ public class RecordType implements IDBOperation {
     @Override
     public boolean Update() {
         StringBuilder sql = new StringBuilder();
-        sql.append( "UPDATE RECORDTYPE SET ");
-        sql.append( "RECORD_ID = ");
-        sql.append(recordId);
-        sql.append(",");
+        sql.append( "UPDATE RECORD_TYPE SET ");
         sql.append("TYPE = ");
         sql.append(type);
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
 
 
         try {
@@ -71,7 +69,7 @@ public class RecordType implements IDBOperation {
 
     @Override
     public boolean Delete() {
-        String sql = "DELETE FROM RECORDTYPE WHERE RECORD_ID = " + recordId;
+        String sql = "DELETE FROM RECORD_TYPE WHERE RECORD_ID = " + recordId;
         try {
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
@@ -84,7 +82,7 @@ public class RecordType implements IDBOperation {
 
     @Override
     public boolean Load(int recordId) {
-        String sql = "SELECT * FROM RECORDTYPE WHERE RECORD ID = " + recordId;
+        String sql = "SELECT * FROM RECORD_TYPE WHERE RECORD_ID = " + recordId;
         try {
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);

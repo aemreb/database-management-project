@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class HealthInfo implements IDBOperation{
 
-    private int recordId, recordType, height, weight;
+    private int recordId, recordTypeId, recordValueId, height, weight;
     private int bloodType; //0: 0, 1: A, 2: B, 3: AB
     private Date created, modified;
     private boolean billOfHealth;
@@ -27,12 +27,16 @@ public class HealthInfo implements IDBOperation{
     }
 
     public int getRecordType() {
-        return recordType;
+        return recordTypeId;
     }
 
     public void setRecordType(int recordType) {
-        this.recordType = recordType;
+        this.recordTypeId = recordTypeId;
     }
+
+    public int getRecordValueId() { return recordValueId; }
+
+    public void setRecordValueId(int recordValueId) { this.recordValueId = recordValueId; }
 
     public int getHeight() {
         return height;
@@ -111,11 +115,10 @@ public class HealthInfo implements IDBOperation{
     public boolean Insert() {
 
         StringBuilder sql = new StringBuilder();
-        sql.append( "INSERT INTO HEALTHINFO ");
-        sql.append( "(RECORD_ID, RECORD_TYPE, HEIGHT, WEIGHT, BLOOD_TYPE, BILL_OF_HEALTH,)");
-        sql.append(recordId);
-        sql.append(",");
-        sql.append(recordType);
+        sql.append( "INSERT INTO HEALTH_INFO ");
+        sql.append( "(RECORD_TYPE_ID, RECORD_VALUE, HEIGHT, WEIGHT, BLOOD_TYPE_ID, BILL_OF_HEALTH)");
+        sql.append(" VALUES(");
+        sql.append(recordTypeId);
         sql.append(",");
         sql.append(height);
         sql.append(",");
@@ -124,6 +127,7 @@ public class HealthInfo implements IDBOperation{
         sql.append(bloodType);
         sql.append(",");
         sql.append(billOfHealth);
+        sql.append(")");
 
         try {
             statement =  con.createStatement();
@@ -137,12 +141,12 @@ public class HealthInfo implements IDBOperation{
     @Override
     public boolean Update() {
         StringBuilder sql = new StringBuilder();
-        sql.append( "UPDATE HEALTHINFO SET ");
+        sql.append( "UPDATE HEALTH_INFO SET ");
         sql.append( "RECORD_ID = ");
         sql.append(recordId);
         sql.append(",");
         sql.append("RECORD_TYPE = ");
-        sql.append(recordType);
+        sql.append(recordTypeId);
         sql.append(",");
         sql.append("HEIGHT = ");
         sql.append(height);
@@ -150,12 +154,13 @@ public class HealthInfo implements IDBOperation{
         sql.append("WEIGHT = ");
         sql.append(weight);
         sql.append(",");
-        sql.append("BLOOD_TYPE = ");
+        sql.append("BLOOD_TYPE_ID = ");
         sql.append(bloodType);
         sql.append(",");
         sql.append("BILL_OF_HEALTH = ");
         sql.append(billOfHealth);
-
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
 
         try {
             statement =  con.createStatement();
@@ -168,7 +173,7 @@ public class HealthInfo implements IDBOperation{
 
     @Override
     public boolean Delete() {
-        String sql = "DELETE FROM HEALTHINFO WHERE RECORD_ID = " + recordId;
+        String sql = "DELETE FROM HEALTH_INFO WHERE RECORD_ID = " + recordId;
         try {
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
@@ -181,7 +186,7 @@ public class HealthInfo implements IDBOperation{
 
     @Override
     public boolean Load(int recordId) {
-        String sql = "SELECT * FROM HEALTHINFO WHERE RECORD ID = " + recordId;
+        String sql = "SELECT * FROM HEALTH_INFO WHERE RECORD_ID = " + recordId;
         try {
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -204,10 +209,10 @@ public class HealthInfo implements IDBOperation{
         try{
             while(rs.next()) {
                 recordId = rs.getInt("RECORD_ID");
-                recordType = rs.getInt("RECORD_TYPE");
+                recordTypeId = rs.getInt("RECORD_TYPE");
                 height = rs.getInt("HEIGHT");
                 weight = rs.getInt("WEIGHT");
-                bloodType = rs.getInt("BLOOD-TYPE");
+                bloodType = rs.getInt("BLOOD_TYPE_ID");
                 billOfHealth = rs.getBoolean("BILL_OF_HEALTH");
 
             }
