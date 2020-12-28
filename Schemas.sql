@@ -88,12 +88,12 @@ create table employee(
 /*sequence kullanımı öğrenci no için madde-7*/
 create sequence seq_studentnum
 start with 10
-increment by 10
+increment by 10;
 
 /*arayüzden çağrılan offday report view sorgusu kullanımı madde-6*/
 create view offday_report as
 select name || ' ' || surname, offday
-from employee
+from employee;
 
 /*cursor function1 - kan grubu x olan öğrencilerin ortalama yaşı madde-10*/
 create or replace function bloodtype_avg(blood numeric)
@@ -151,5 +151,38 @@ begin
         end loop;
     return total_income;
 end;
-$$ language 'plpgsql'
+$$ language 'plpgsql';
 
+/*Uyelik bilgisi icerisinde end_date ayarlanmasi icin trigger*/
+
+create trigger Assing_End_Date
+after insert on membership
+referencing new row as new1
+for each row
+when(new1.started_date is not null and new1.membership_type_id is not null)
+execute  procedure update_Enddate();
+
+create or replace function update_Enddate()
+returns trigger as $$
+declare
+    time_for_membership bigint;
+begin
+    case new.membership_type_id
+        when 1 then
+            time_for_membership = 2678400; /*Bir ay*/
+        when 2 then
+            time_for_membership = 15724800; /*Alti ay*/
+        when 3 then
+            time_for_membership = 31536000; /*On iki ay*/
+        when 4 then
+            time_for_membership = 63072000; /*Yirmi dort ay*/
+        else
+            time_for_membership = 160463160; /*Bes yil*/
+    end case;
+
+    update membership
+    set new.end_date = to_timestamp(round(extract(epoch from  new.started_date)) + time_for_membership)
+    where record_id = new.record_id;
+
+end;
+$$ language 'plpgsql';
