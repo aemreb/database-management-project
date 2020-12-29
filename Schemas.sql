@@ -157,29 +157,28 @@ $$ language 'plpgsql';
 
 create trigger Assing_End_Date
 after insert on membership
-referencing new row as new1
-for each row
-when(new1.started_date is not null and new1.membership_type_id is not null)
-execute  procedure update_Enddate();
+for each row execute  procedure update_Enddate();
 
 create or replace function update_Enddate()
 returns trigger as $$
 declare
     time_for_membership bigint;
 begin
-    case new.membership_type_id
-        when 1 then
-            time_for_membership = 2678400; /*Bir ay*/
-        when 2 then
-            time_for_membership = 15724800; /*Alti ay*/
-        when 3 then
-            time_for_membership = 31536000; /*On iki ay*/
-        when 4 then
-            time_for_membership = 63072000; /*Yirmi dort ay*/
-        else
-            time_for_membership = 160463160; /*Bes yil*/
-    end case;
-
+    if(new.started_date is not null and new.membership_type_id is not null) then
+        case new.membership_type_id
+            when 1 then
+                time_for_membership = 2678400; /*Bir ay*/
+            when 2 then
+                time_for_membership = 15724800; /*Alti ay*/
+            when 3 then
+                time_for_membership = 31536000; /*On iki ay*/
+            when 4 then
+                time_for_membership = 63072000; /*Yirmi dort ay*/
+            else
+                time_for_membership = 160463160; /*Bes yil*/
+        end case;
+    end if;
+    
     update membership
     set new.end_date = to_timestamp(round(extract(epoch from  new.started_date)) + time_for_membership)
     where record_id = new.record_id;
