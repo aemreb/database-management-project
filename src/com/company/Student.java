@@ -5,11 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.List;
 
 public class Student implements IDBOperation{
     private int recordId;
     private Date createdDateTime;
     private Date modifiedDateTime;
+    private int studentNum;
     private String identityNum;
     private String name;
     private String surname;
@@ -45,6 +47,10 @@ public class Student implements IDBOperation{
     public void setModifiedDateTime(Date modifiedDateTime) {
         this.modifiedDateTime = modifiedDateTime;
     }
+
+    public int getStudentNum() { return studentNum; }
+
+    public void setStudentNum(int studentNum) { this.studentNum = studentNum; }
 
     public String getIdentityNum() {
         return identityNum;
@@ -115,7 +121,10 @@ public class Student implements IDBOperation{
 
         StringBuilder sql = new StringBuilder();
              sql.append( "INSERT INTO STUDENT ");
-             sql.append( "(NAME, SURNAME,IDENTITY_NUM, AGE, PHONE, EMERGENY_PHONE, EMAIL, ADDRESS)");
+             sql.append( "(STUDENT_NUM, NAME, SURNAME,IDENTITY_NUM, AGE, PHONE, EMERGENCY_PHONE, EMAIL, ADDRESS)");
+             sql.append(" VALUES(");
+             sql.append(studentNum);
+             sql.append(",");
              sql.append(name);
              sql.append(",");
              sql.append(surname);
@@ -131,6 +140,7 @@ public class Student implements IDBOperation{
              sql.append(email);
              sql.append(",");
              sql.append(address);
+             sql.append(")");
 
         try {
             statement =  con.createStatement();
@@ -145,6 +155,8 @@ public class Student implements IDBOperation{
     public boolean Update() {
         StringBuilder sql = new StringBuilder();
         sql.append( "UPDATE STUDENT SET ");
+        sql.append("STUDENT_NUM = ");
+        sql.append(studentNum);
         sql.append( "NAME = ");
         sql.append(name);
         sql.append(",");
@@ -152,7 +164,6 @@ public class Student implements IDBOperation{
         sql.append(surname);
         sql.append(",");
         sql.append("IDENTITY_NUM = ");
-        sql.append(identityNum);
         sql.append(",");
         sql.append("AGE = ");
         sql.append(age);
@@ -168,6 +179,8 @@ public class Student implements IDBOperation{
         sql.append(",");
         sql.append("ADDRESS = ");
         sql.append(address);
+        sql.append(" WHERE RECORD_ID = ");
+        sql.append(recordId);
 
         try {
             statement =  con.createStatement();
@@ -193,7 +206,7 @@ public class Student implements IDBOperation{
 
     @Override
     public boolean Load(int recordId) {
-        String sql = "SELECT * FROM STUDENT WHERE RECORD ID = " + recordId;
+        String sql = "SELECT * FROM STUDENT WHERE RECORD_ID = " + recordId;
         try {
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -216,6 +229,7 @@ public class Student implements IDBOperation{
         try{
             while(rs.next()) {
                 recordId = rs.getInt("RECORD_ID");
+                studentNum = rs.getInt("STUDENT_NUM");
                 identityNum = rs.getString("IDENTITY_NUM");
                 name = rs.getString("NAME");
                 surname = rs.getString("SURNAME");
@@ -230,4 +244,8 @@ public class Student implements IDBOperation{
             }
 
     }
+
+
+
+
 }
