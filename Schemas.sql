@@ -38,7 +38,7 @@ create table student(
 
 create table employee(
  record_id serial not null ,
- type_id int not null,
+ type_id serial not null,
  created_datetime timestamp default current_timestamp,
  modified_datetime timestamp default current_timestamp,
  identity_num serial not null ,/*varchar(30) not null,*/
@@ -59,10 +59,10 @@ create table employee(
  record_id serial not null ,
  created_datetime timestamp default current_timestamp,
  modified_datetimet timestamp default current_timestamp,
- record_type_id int,
+ record_type_id serial,
  record_value int unique,
  bill_of_health boolean,
- blood_type_id int,
+ blood_type_id serial,
  height int,
  weight int,
  primary key (record_id),
@@ -74,8 +74,8 @@ create table employee(
  record_id serial not null ,
  created_datetime timestamp default current_timestamp,
  modified_datetime timestamp default current_timestamp,
- student_id int,
- membership_type_id int,
+ student_id serial,
+ membership_type_id serial,
  status boolean,
  started_date timestamp,
  end_date timestamp,
@@ -153,6 +153,45 @@ begin
 end;
 $$ language 'plpgsql';
 
+/*Yaşları 20 nin üstünde olan öğrwnciler ile yaşları 30 un üstünde olan çalışaların "union" ile listelenmesi*/
+
+select * from student where  age > 20 union select * from employee where age > 30;
+
+/*Girilen son tarihten itibaren üye olan kullanıcı sayısı ve toplam ücret bilgisi*/
+
+select count(mem.*) , sum(memt.price)
+from membership mem, membership_type memt
+where mem.started_date >= 'yyyy-mm-dd hh:mm:ss' and mem.ispaid = true and memt.record_id = mem.record_id;
+
+/*Çalışanları tiplerine göre 2 den fazla izin günü
+geçirenlerin sayısını sıralı olarak listeleme*/
+
+select count(emp.offday) , rec.type
+from employee emp
+         join record_type rec
+              on emp.type_id = rec.record_id
+group by rec.type
+having count(emp.offday) > 2
+order by count(emp.offday) > 2;
+
+/*Membershipteki ispaid true (check box) olduğunda üyelik aktife çekilir trigger1 -
+  arayüzde kayıt alırken ödeme check box ı
+  tıklandığında "üyelik aktif edildi" uyarısı verir*/
+
+create trigger Activate_Membership
+after update or insert on membership
+for each row execute procedure Info_Message();
+
+create or replace function Info_Message()
+    returns trigger as $$
+begin
+    if(new.ispaid) then
+        raise info '% nolu kullanıcının üyeliği aktifleşti',new.record_id;
+    end if;
+    return new;
+end;
+$$ language'plpgsql';
+
 /*Uyelik bilgisi icerisinde end_date ayarlanmasi icin trigger*/
 
 create trigger Assing_End_Date
@@ -183,5 +222,9 @@ begin
     set new.end_date = to_timestamp(round(extract(epoch from  new.started_date)) + time_for_membership)
     where record_id = new.record_id;
 
+    raise info '% nolu kullanicni sontarihi atandi',new.record_id;
+
+    return new;
 end;
 $$ language 'plpgsql';
+
