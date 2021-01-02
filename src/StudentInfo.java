@@ -1,10 +1,11 @@
 import com.company.AddStudent;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StudentInfo extends JFrame{
+public class StudentInfo{
     private JLabel isimTitle;
     private JLabel soyisimTitle;
     private JLabel tcTitle;
@@ -33,11 +34,13 @@ public class StudentInfo extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 studentInfo = enterStudentInfoTextField.getText();
+
             }
         });
     }
 
     public void load(){
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new StudentInfo().studentInfoPanel);
         frame.pack();
