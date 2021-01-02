@@ -1,4 +1,5 @@
 import com.company.AddStudent;
+import com.company.MembershipInfo;
 import com.company.Student;
 
 import javax.swing.*;
@@ -6,22 +7,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Main extends JPanel{
-    private JButton kayıtSorgulaButton;
-    private JButton öğrenciEkleButton;
+    private JButton ogrenciSorgulaButton;
+    private JButton ogrenciEkleButton;
+    private JButton uyelikSorgulaButton;
     private JPanel firstPanel;
 
-
     public Main() {
-        kayıtSorgulaButton.addActionListener(new ActionListener() {
+        ogrenciSorgulaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 new StudentInfo().load();
             }
         });
-        öğrenciEkleButton.addActionListener(new ActionListener() {
+        ogrenciEkleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 new AddStudent().load();
+            }
+        });
+
+        uyelikSorgulaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               new MembershipInfo().load();
             }
         });
     }
@@ -34,7 +44,7 @@ public class Main extends JPanel{
         frame.getContentPane().add(new Main().firstPanel);
         frame.pack();
         frame.setVisible(true);
-
+        Student st = new Student();
     }
 
 

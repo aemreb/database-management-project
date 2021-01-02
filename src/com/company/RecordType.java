@@ -11,6 +11,7 @@ public class RecordType implements IDBOperation {
 
     private Connection con = null;
     private Statement statement = null;
+    private Database db = new Database();
 
     public int getRecordId() {
         return recordId;
@@ -40,6 +41,7 @@ public class RecordType implements IDBOperation {
         sql.append(")");
 
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -59,6 +61,7 @@ public class RecordType implements IDBOperation {
 
 
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -71,6 +74,7 @@ public class RecordType implements IDBOperation {
     public boolean Delete() {
         String sql = "DELETE FROM RECORD_TYPE WHERE RECORD_ID = " + recordId;
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -84,6 +88,7 @@ public class RecordType implements IDBOperation {
     public boolean Load(int recordId) {
         String sql = "SELECT * FROM RECORD_TYPE WHERE RECORD_ID = " + recordId;
         try {
+            con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
             if(result != null){

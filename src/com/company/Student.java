@@ -15,7 +15,7 @@ public class Student implements IDBOperation{
     private String identityNum;
     private String name;
     private String surname;
-    private int age;
+    private Integer age;
     private String phone;
     private String emergencyPhone;
     private String email;
@@ -23,6 +23,7 @@ public class Student implements IDBOperation{
 
     private Connection con = null;
     private Statement statement = null;
+    private Database db = new Database();
 
     public int getRecordId() {
         return recordId;
@@ -76,7 +77,7 @@ public class Student implements IDBOperation{
         this.surname = surname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -121,31 +122,36 @@ public class Student implements IDBOperation{
 
         StringBuilder sql = new StringBuilder();
              sql.append( "INSERT INTO STUDENT ");
-             sql.append( "(STUDENT_NUM, NAME, SURNAME,IDENTITY_NUM, AGE, PHONE, EMERGENCY_PHONE, EMAIL, ADDRESS)");
-             sql.append(" VALUES(");
-             sql.append(studentNum);
-             sql.append(",");
+             sql.append( "(NAME, SURNAME,IDENTITY_NUM, AGE, PHONE, EMERGENCY_PHONE, EMAIL, ADDRESS, STUDENT_NUM)");
+             sql.append(" VALUES('");
              sql.append(name);
-             sql.append(",");
+             sql.append("','");
              sql.append(surname);
-             sql.append(",");
+             sql.append("','");
              sql.append(identityNum);
-             sql.append(",");
+             sql.append("',");
              sql.append(age);
-             sql.append(",");
+             sql.append(",'");
              sql.append(phone);
-             sql.append(",");
+             sql.append("','");
              sql.append(emergencyPhone);
-             sql.append(",");
+             sql.append("','");
              sql.append(email);
-             sql.append(",");
+             sql.append("','");
              sql.append(address);
+             sql.append("',");
+             sql.append("nextval('seq_studentnum')");
              sql.append(")");
-
         try {
+            con = db.getCon();
             statement =  con.createStatement();
-            boolean result = statement.execute(sql.toString());
-            return result;
+            int result = statement.executeUpdate(sql.toString());
+            ResultSet rs = null;
+            if(result>0) {
+                rs = statement.executeQuery("SELECT MAX(STUDENT_NUM) FROM STUDENT");
+                studentNum = rs.getInt("STUDENT_NUM");
+            }
+            return result > 0;
         } catch (SQLException throwables) {
             return false;
         }
@@ -183,6 +189,7 @@ public class Student implements IDBOperation{
         sql.append(recordId);
 
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -195,6 +202,7 @@ public class Student implements IDBOperation{
     public boolean Delete() {
         String sql = "DELETE FROM STUDENT WHERE RECORD_ID = " + recordId;
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -208,6 +216,7 @@ public class Student implements IDBOperation{
     public boolean Load(int recordId) {
         String sql = "SELECT * FROM STUDENT WHERE RECORD_ID = " + recordId;
         try {
+            con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
             if(result != null){
@@ -216,6 +225,25 @@ public class Student implements IDBOperation{
             }
         } catch (SQLException throwables) {
                 return false;
+        }
+
+
+        return false;
+    }
+
+
+    public boolean LoadWithStdNum(int studentNum) {
+        String sql = "SELECT * FROM STUDENT WHERE STUDENT_NUM = " + studentNum;
+        try {
+            con = db.getCon();
+            statement = con.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            if(result != null){
+                LoadFromResultSet(result);
+                return true;
+            }
+        } catch (SQLException throwables) {
+            return false;
         }
 
 

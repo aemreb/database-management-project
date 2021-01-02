@@ -26,16 +26,35 @@ public class AddStudent extends JFrame {
     private JLabel emailTitle;
     private JLabel adresTitle;
     private JButton gonderButton;
+    private JLabel messageLabel;
+
     public JFrame frame = new JFrame();
+
+    private  Student std = new Student();
+
     public AddStudent(){
 
         gonderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button pressed");
                 frame.setVisible(false);
                 frame.dispose();
-                //???
+                std.setName(isimField.getText());
+                std.setSurname(soyisimField.getText());
+                std.setIdentityNum(tcField.getText());
+                std.setAge(Integer.parseInt(yasField.getText()));
+                std.setPhone(telefonField.getText());
+                std.setEmergencyPhone(emergencyField.getText());
+                std.setEmail(emailField.getText());
+                std.setAddress(adresField.getText());
+
+                if(std.Insert()){
+                    messageLabel.setText(std.getStudentNum() + " numaralı öğrenci eklendi.");
+                }else{
+                    messageLabel.setText("Öğrenci eklenemedi.");
+                }
+
+
 
             }
         });

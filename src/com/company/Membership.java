@@ -16,6 +16,7 @@ public class Membership  implements IDBOperation{
 
     private Connection con = null;
     private Statement statement = null;
+    private Database db = new Database();
 
     public int getRecordId() { return recordId; }
 
@@ -109,6 +110,7 @@ public class Membership  implements IDBOperation{
         sql.append(" WHERE RECORD_ID = ");
         sql.append(recordId);
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -130,7 +132,7 @@ public class Membership  implements IDBOperation{
         sql.append("END_DATE = ");
         sql.append(endDate);
         sql.append(",");
-        sql.append("STATUS_ID = ");
+        sql.append("STATUS = ");
         sql.append(statusId);
         sql.append(",");
         sql.append("ISPAID = ");
@@ -142,6 +144,7 @@ public class Membership  implements IDBOperation{
         sql.append(recordId);
 
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -154,6 +157,7 @@ public class Membership  implements IDBOperation{
     public boolean Delete() {
         String sql = "DELETE FROM MEMBERSHIP WHERE STUDENT_ID = " + studentId;
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -167,6 +171,7 @@ public class Membership  implements IDBOperation{
     public boolean Load(int recordId) {
         String sql = "SELECT * FROM MEMBERSHIP WHERE RECORD_ID = " + recordId;
         try {
+            con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
             if(result != null){
@@ -190,7 +195,7 @@ public class Membership  implements IDBOperation{
                 studentId = rs.getInt("STUDENT_ID");
                 startDate = rs.getDate("STARTED_DATE");
                 endDate = rs.getDate("END_DATE");
-                statusId = rs.getBoolean("STATUS_ID");
+                statusId = rs.getBoolean("STATUS");
                 isPaid = rs.getBoolean("ISPAID");
                 membershipTypeId = rs.getInt("MEMBERSHIP_TYPE_ID");
 
@@ -205,6 +210,7 @@ public class Membership  implements IDBOperation{
 
         String sql = "SELECT * FROM MEMBERSHIP M, STUDENT S WHERE M.STUDENT_ID = S.RECORD_ID AND S.STUDENT_NUM = " + studentNum;
         try {
+            con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
             if(result != null){
@@ -213,7 +219,7 @@ public class Membership  implements IDBOperation{
                     m.studentId = result.getInt("STUDENT_ID");
                     m.startDate = result.getDate("STARTED_DATE");
                     m.endDate = result.getDate("END_DATE");
-                    m.statusId = result.getBoolean("STATUS_ID");
+                    m.statusId = result.getBoolean("STATUS");
                     m.isPaid = result.getBoolean("ISPAID");
                     m.membershipTypeId = result.getInt("MEMBERSHIP_TYPE_ID");
                     lstMembership.add(m);

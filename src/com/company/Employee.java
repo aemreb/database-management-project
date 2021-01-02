@@ -25,6 +25,7 @@ public class Employee implements IDBOperation {
 
     private Connection con = null;
     private Statement statement = null;
+    private Database db = new Database();
 
 
     public int getRecordId() {
@@ -138,29 +139,30 @@ public class Employee implements IDBOperation {
         StringBuilder sql = new StringBuilder();
         sql.append( "INSERT INTO EMPLOYEE ");
         sql.append( "(NAME, SURNAME,IDENTITY_NUM, TYPE_ID, AGE, PHONE, EMERGENCY_PHONE, EMAIL, SALARY, OFFDAY)");
-        sql.append(" VALUES(");
+        sql.append(" VALUES('");
         sql.append(name);
-        sql.append(",");
+        sql.append("','");
         sql.append(surname);
-        sql.append(",");
+        sql.append("','");
         sql.append(identityNum);
-        sql.append(",");
+        sql.append("',");
         sql.append(typeId);
         sql.append(",");
         sql.append(age);
-        sql.append(",");
+        sql.append(",'");
         sql.append(phone);
-        sql.append(",");
+        sql.append("','");
         sql.append(emergencyPhone);
-        sql.append(",");
+        sql.append("','");
         sql.append(email);
-        sql.append(",");
+        sql.append("',");
         sql.append(salary);
         sql.append(",");
         sql.append(offDay);
         sql.append(")");
 
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -204,6 +206,7 @@ public class Employee implements IDBOperation {
         sql.append(recordId);
 
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -216,6 +219,7 @@ public class Employee implements IDBOperation {
     public boolean Delete() {
         String sql = "DELETE FROM EMPLOYEE WHERE RECORD_ID = " + recordId;
         try {
+            con = db.getCon();
             statement =  con.createStatement();
             boolean result = statement.execute(sql.toString());
             return result;
@@ -229,6 +233,7 @@ public class Employee implements IDBOperation {
     public boolean Load(int recordId) {
         String sql = "SELECT * FROM EMPLOYEE WHERE RECORD ID = " + recordId;
         try {
+            con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
             if(result != null){
@@ -271,6 +276,7 @@ public class Employee implements IDBOperation {
         String sql = "SELECT SUM(SALARY), R.TYPE, E.TYPE_ID FROM EMPLOYEE E, RECORD_TYPE R WHERE E.TYPE_ID=R.RECORD_ID GROUP BY E.TYPE_ID, R.TYPE HAVING SUM(SALARY) > "+ minSalary;
 
         try {
+            con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
             if(result != null){

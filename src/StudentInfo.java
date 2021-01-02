@@ -1,4 +1,5 @@
 import com.company.AddStudent;
+import com.company.Student;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,12 +28,24 @@ public class StudentInfo extends JFrame{
     private JFrame frame= new JFrame();
     private String studentInfo;
 
+    private Student std = new Student();
 
     public StudentInfo() {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 studentInfo = enterStudentInfoTextField.getText();
+                std.LoadWithStdNum(Integer.parseInt(studentInfo));
+                isimValue.setText(std.getName());
+                soyisimValue.setText(std.getSurname());
+                tcValue.setText(std.getIdentityNum());
+                yasValue.setText(std.getAge().toString());
+                telefonValue.setText(std.getPhone());
+                emergencyValue.setText(std.getEmergencyPhone());
+                emailValue.setText(std.getEmail());
+                adresValue.setText(std.getAddress());
+
             }
         });
     }
