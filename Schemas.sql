@@ -23,7 +23,7 @@ create table student(
  created_datetime timestamp default current_timestamp,
  modified_datetime timestamp default current_timestamp,
  student_num int not null,
- identity_num varchar(30) not null,
+ identity_num serial not null ,/*varchar(30) not null,*/
  name varchar(25) not null,
  surname varchar(25) not null,
  age int not null,
@@ -41,7 +41,7 @@ create table employee(
  type_id int not null,
  created_datetime timestamp default current_timestamp,
  modified_datetime timestamp default current_timestamp,
- identity_num varchar(30) not null,
+ identity_num serial not null ,/*varchar(30) not null,*/
  name varchar(25) not null,
  surname varchar(25) not null,
  age int not null,
@@ -60,7 +60,7 @@ create table employee(
  created_datetime timestamp default current_timestamp,
  modified_datetimet timestamp default current_timestamp,
  record_type_id int,
- record_value int,
+ record_value int unique,
  bill_of_health boolean,
  blood_type_id int,
  height int,
