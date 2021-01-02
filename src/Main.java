@@ -1,3 +1,4 @@
+import com.company.AddMembership;
 import com.company.AddStudent;
 import com.company.MembershipInfo;
 import com.company.Student;
@@ -12,6 +13,7 @@ public class Main extends JPanel{
     private JButton ogrenciEkleButton;
     private JButton uyelikSorgulaButton;
     private JPanel firstPanel;
+    private JButton addMembershipButton;
 
     public Main() {
         ogrenciSorgulaButton.addActionListener(new ActionListener() {
@@ -35,6 +37,14 @@ public class Main extends JPanel{
                new MembershipInfo().load();
             }
         });
+
+        addMembershipButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddMembership().load();
+            }
+        });
+
     }
 
 

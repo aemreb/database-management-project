@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -248,6 +249,25 @@ public class Student implements IDBOperation{
 
 
         return false;
+    }
+
+    public ResultSet GetAllStudent() {
+        ResultSet result=null;
+
+        String sql = "SELECT NAME ||' ' ||SURNAME ||' ' ||STUDENT_NUM FROM STUDENT ";
+        try {
+            con = db.getCon();
+            statement = con.createStatement();
+             result = statement.executeQuery(sql);
+            if(result != null){
+               return  result;
+            }
+        } catch (SQLException throwables) {
+            return result;
+        }
+
+
+        return result;
     }
 
 

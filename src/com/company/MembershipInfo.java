@@ -15,7 +15,7 @@ public class MembershipInfo extends JFrame{
     private JLabel endDateTitle;
     private JLabel statusTitle;
     private JLabel isPaidTitle;
-    private JLabel emailTitle;
+    private JLabel membershipTypeTitle;
     private JLabel soyisimValue;
     private JLabel endDateValue;
     private JLabel statusValue;

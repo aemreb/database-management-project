@@ -90,7 +90,7 @@ create sequence seq_studentnum
 start with 10
 increment by 10;
 
-/*arayüzden çağrılan offday report view sorgusu kullanımı madde-6*/
+/*arayüzden çağrılan offday report view sorgusu kullanımı madde-6 -ibrahim*/
 create view offday_report as
 select name || ' ' || surname, offday
 from employee;
@@ -153,17 +153,17 @@ begin
 end;
 $$ language 'plpgsql';
 
-/*Yaşları 20 nin üstünde olan öğrwnciler ile yaşları 30 un üstünde olan çalışaların "union" ile listelenmesi*/
+/*Yaşları 20 nin üstünde olan öğrwnciler ile yaşları 30 un üstünde olan çalışaların "union" ile listelenmesi-ibrahim*/
 
 select * from student where  age > 20 union select * from employee where age > 30;
 
-/*Girilen son tarihten itibaren üye olan kullanıcı sayısı ve toplam ücret bilgisi*/
+/*Girilen son tarihten itibaren üye olan kullanıcı sayısı ve toplam ücret bilgisi -ibrahim*/
 
 select count(mem.*) , sum(memt.price)
 from membership mem, membership_type memt
 where mem.started_date >= 'yyyy-mm-dd hh:mm:ss' and mem.ispaid = true and memt.record_id = mem.record_id;
 
-/*Çalışanları tiplerine göre 2 den fazla izin günü
+/*Çalışanları tiplerine göre 2 den fazla izin günü -ibrahim
 geçirenlerin sayısını sıralı olarak listeleme*/
 
 select count(emp.offday) , rec.type
