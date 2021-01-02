@@ -251,23 +251,28 @@ public class Student implements IDBOperation{
         return false;
     }
 
-    public ResultSet GetAllStudent() {
+    public String[] GetAllStudent() {
         ResultSet result=null;
-
-        String sql = "SELECT NAME ||' ' ||SURNAME ||' ' ||STUDENT_NUM FROM STUDENT ";
+        String[] str = new String[100];
+        String sql = "SELECT NAME ||' ' ||SURNAME ||' ' ||STUDENT_NUM AS NAME FROM STUDENT ";
         try {
             con = db.getCon();
             statement = con.createStatement();
              result = statement.executeQuery(sql);
             if(result != null){
-               return  result;
+                int i=0;
+                while(result.next()){
+                    str[i] = result.getString("NAME");
+                    i++;
+                }
+               return  str;
             }
         } catch (SQLException throwables) {
-            return result;
+            return str;
         }
 
 
-        return result;
+        return str;
     }
 
 

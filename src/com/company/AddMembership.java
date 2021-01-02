@@ -26,8 +26,10 @@ public class AddMembership{
     public JFrame frame = new JFrame();
     private Membership mem = new Membership();
     private Student std = new Student();
+
     public AddMembership(){
 
+        FillCombos(selectStudentCmb, std.GetAllStudent());
         FillCombos(selectTypeCmb, memberships);
 
         addButton.addActionListener(new ActionListener() {
@@ -48,7 +50,6 @@ public class AddMembership{
             frame.setPreferredSize(new Dimension(500, 500));
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             //frame.getContentPane().add(new AddMembership().addMembershipPanel);
-
             frame.getContentPane().add(membershipPanel);
             frame.pack();
             frame.setVisible(true);
