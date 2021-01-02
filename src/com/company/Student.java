@@ -253,16 +253,19 @@ public class Student implements IDBOperation{
 
     public String[] GetAllStudent() {
         ResultSet result=null;
-        String[] str = new String[100];
-        String sql = "SELECT NAME ||' ' ||SURNAME ||' ' ||STUDENT_NUM AS NAME FROM STUDENT ";
+        String[] str = null;
+        String sql = "SELECT STUDENT_NUM || ' ' || NAME ||' ' || SURNAME AS INFO FROM STUDENT ";
         try {
             con = db.getCon();
             statement = con.createStatement();
              result = statement.executeQuery(sql);
             if(result != null){
+
+                str = new String[50];
+
                 int i=0;
                 while(result.next()){
-                    str[i] = result.getString("NAME");
+                    str[i] = result.getString("INFO");
                     i++;
                 }
                return  str;

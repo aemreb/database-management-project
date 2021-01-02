@@ -103,10 +103,8 @@ public class Membership  implements IDBOperation{
         sql.append(isPaid);
         sql.append(",");
         sql.append(membershipTypeId);
-        sql.append(",");
         sql.append(")");
-        sql.append(" WHERE RECORD_ID = ");
-        sql.append(recordId);
+        System.out.println(sql);
         try {
             con = db.getCon();
             statement =  con.createStatement();

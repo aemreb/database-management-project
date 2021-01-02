@@ -194,10 +194,6 @@ $$ language'plpgsql';
 
 /*Uyelik bilgisi icerisinde end_date ayarlanmasi icin trigger*/
 
-create trigger Assing_End_Date
-after insert on membership
-for each row execute  procedure update_Enddate();
-
 create or replace function update_Enddate()
 returns trigger as $$
 declare
@@ -205,16 +201,10 @@ declare
 begin
     if(new.started_date is not null and new.membership_type_id is not null) then
         case new.membership_type_id
-            when 1 then
-                time_for_membership = 2678400; /*Bir ay*/
-            when 2 then
+            when 10 then
                 time_for_membership = 15724800; /*Alti ay*/
-            when 3 then
+            when 20 then
                 time_for_membership = 31536000; /*On iki ay*/
-            when 4 then
-                time_for_membership = 63072000; /*Yirmi dort ay*/
-            else
-                time_for_membership = 160463160; /*Bes yil*/
         end case;
     end if;
     
@@ -227,4 +217,8 @@ begin
     return new;
 end;
 $$ language 'plpgsql';
+
+create trigger Assing_End_Date
+    after insert on membership
+    for each row execute  procedure update_Enddate();
 

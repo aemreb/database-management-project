@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -14,14 +17,15 @@ public class AddMembership{
     private JLabel startDateTitle;
     private JLabel isPaidTitle;
     private JLabel membershipTypeTitle;
-    private JLabel startDateValue;
     private JButton addButton;
     private JComboBox selectStudentCmb;
     private JCheckBox isPaidCheckBox;
-    String[] memberships = {"12 ay", "6 ay"};
+    String[] memberships = {"12 Ay", "6 Ay"};
     private JComboBox selectTypeCmb;
     private JLabel dateFormat;
     private JPanel membershipPanel;
+    private JTextField startDateField;
+    private JLabel isPaidLabel;
 
     public JFrame frame = new JFrame();
     private Membership mem = new Membership();
@@ -37,9 +41,32 @@ public class AddMembership{
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
                 frame.dispose();
-
-
-
+                String selectedStd;
+                selectedStd = selectStudentCmb.getSelectedItem().toString();
+                String[] str = selectedStd.split(" ");
+                std.LoadWithStdNum(Integer.parseInt(str[0]));
+                mem.setStudentId(std.getRecordId());
+                /*Date date= null;
+                try {
+                    date = new SimpleDateFormat("YYYY-mm-dd").parse(startDateField.getText().toString());
+                } catch (ParseException parseException) {
+                    parseException.printStackTrace();
+                }
+                mem.setStartDate(date);*/
+                mem.setPaid(isPaidCheckBox.isSelected());
+                if(isPaidCheckBox.isSelected())
+                    isPaidLabel.setText("Üyelik Aktif Edildi!");
+                String selectedType;
+                selectedType = selectTypeCmb.getSelectedItem().toString();
+                if(selectedType.compareTo("12 Ay")==0){
+                    mem.setMembershipTypeId(20);
+                }else{
+                    mem.setMembershipTypeId(10);
+                }
+                if(mem.Insert())
+                    isPaidLabel.setText("Kayıt Eklendi!");
+                else
+                    isPaidLabel.setText("Kayıt Eklenemedi!");
             }
 
         });
