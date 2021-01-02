@@ -3,6 +3,7 @@ import com.company.MembershipInfo;
 import com.company.Student;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,6 +41,7 @@ public class Main extends JPanel{
 
     public void load(){
         JFrame frame = new JFrame();
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new Main().firstPanel);
         frame.pack();

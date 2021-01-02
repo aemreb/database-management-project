@@ -60,12 +60,9 @@ public class AddStudent extends JFrame {
         });
     }
 
-    private void close(){
-        WindowEvent windowEventClosing = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowEventClosing);
-    }
 
     public void load(){
+        frame.setPreferredSize(new Dimension(500, 500));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new AddStudent().panelMain);
         frame.pack();
