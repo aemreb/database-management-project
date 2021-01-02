@@ -8,8 +8,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Vector;
 
-public class AddMembership extends JFrame{
-    private JPanel addMembershipPanel;
+public class AddMembership{
+    private JPanel addMembershipPanel = new JPanel();
+
     private JLabel startDateTitle;
     private JLabel isPaidTitle;
     private JLabel membershipTypeTitle;
@@ -17,14 +18,17 @@ public class AddMembership extends JFrame{
     private JButton addButton;
     private JComboBox selectStudentCmb;
     private JCheckBox isPaidCheckBox;
+    String[] memberships = {"12 ay", "6 ay"};
     private JComboBox selectTypeCmb;
     private JLabel dateFormat;
+    private JPanel membershipPanel;
 
     public JFrame frame = new JFrame();
     private Membership mem = new Membership();
     private Student std = new Student();
-    String[] str = {"12 ay", "6 ay"};
     public AddMembership(){
+
+        FillCombos(selectTypeCmb, memberships);
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -43,39 +47,18 @@ public class AddMembership extends JFrame{
         public void load(){
             frame.setPreferredSize(new Dimension(500, 500));
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.getContentPane().add(new AddMembership().addMembershipPanel);
-            selectTypeCmb.addItem(str);
+            //frame.getContentPane().add(new AddMembership().addMembershipPanel);
+
+            frame.getContentPane().add(membershipPanel);
             frame.pack();
             frame.setVisible(true);
-            //FillCombos();
 
 
         }
 
-    private void FillCombos() {
-        Student student=new Student();
-        ResultSet rsStudent= student.GetAllStudent();
-
-
-        try {
-            String[] students=new String[rsStudent.getRow()];
-            for(int i=0;i<students.length;i++) {
-
-                students[i] = (rsStudent.getString(0));
-                rsStudent.next();
-
-            }
-
-            selectStudentCmb=new JComboBox(students);
-
-
-        selectTypeCmb.addItem("12 Ay");
-        selectTypeCmb.addItem("6 Ay");
-        }
-        catch (Exception ex){
-
+    private void FillCombos(JComboBox combo, String[] titles) {
+        for(String str : titles) {
+            combo.addItem(str);
         }
     }
-
-
 }
