@@ -21,7 +21,7 @@ public class Employee implements IDBOperation {
     private String email;
     private String adress;
     private long salary;
-    private int offDay;
+    private Integer offDay;
 
     private Connection con = null;
     private Statement statement = null;
@@ -124,11 +124,11 @@ public class Employee implements IDBOperation {
         this.salary = salary;
     }
 
-    public int getOffDay() {
+    public Integer getOffDay() {
         return offDay;
     }
 
-    public void setOffDay(int offDay) {
+    public void setOffDay(Integer offDay) {
         this.offDay = offDay;
     }
 
@@ -287,6 +287,32 @@ public class Employee implements IDBOperation {
             return null;
         }
         return null;
+    }
+
+    public boolean getEmployeeInfo(String record_id){
+        ResultSet result;
+        String sql = "SELECT get_emp_info(" + record_id + ")";
+
+        try {
+            con = db.getCon();
+            statement = con.createStatement();
+            result = statement.executeQuery(sql);
+            if(result != null){
+                result.next();
+                String[] rs = result.getString("get_emp_info").replace("(", "").replace(")", "").split(",");
+                name = rs[0];
+                surname = rs[1];
+                phone = rs[2];
+                offDay = Integer.parseInt(rs[3]);
+
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+
+        return false;
     }
 
 
