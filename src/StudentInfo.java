@@ -25,6 +25,14 @@ public class StudentInfo extends JFrame{
     private JPanel studentInfoPanel;
     private JTextField enterStudentInfoTextField;
     private JButton searchButton;
+    private JButton deleteButton;
+    private JButton updateButton;
+    private JButton updateButton1;
+    private JButton updateButton2;
+    private JLabel message1;
+    private JLabel message2;
+    private JLabel message;
+    private JLabel message3;
     private JFrame frame= new JFrame();
     private String studentInfo;
 
@@ -46,8 +54,69 @@ public class StudentInfo extends JFrame{
                 emailValue.setText(std.getEmail());
                 adresValue.setText(std.getAddress());
 
+            };
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentInfo = enterStudentInfoTextField.getText();
+                std.LoadWithStdNum(Integer.parseInt(studentInfo));
+                std.Delete();
+                if(std.Delete()){
+                    message.setText(std.getStudentNum() + " numaralı öğrenci silindi.");
+                }else{
+                    message.setText("Öğrenci silinemedi.");
+
+                }
+            };
+        });
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentInfo = enterStudentInfoTextField.getText();
+                std.LoadWithStdNum(Integer.parseInt(studentInfo));
+                std.setAge(Integer.parseInt(yasValue.getText()));
+                std.Update();
+                if(std.Update()){
+                    message1.setText("Güncelleme tamamlandı.");
+                }else{
+                    message1.setText("Güncelleme başarısız.");
+
+                }
+
             }
         });
+        updateButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentInfo = enterStudentInfoTextField.getText();
+                std.LoadWithStdNum(Integer.parseInt(studentInfo));
+                std.setPhone(telefonValue.getText());
+                std.Update();
+                if(std.Update()){
+                    message2.setText("Güncelleme tamamlandı.");
+                }else{
+                    message2.setText("Güncelleme başarısız.");
+
+                }
+            }
+        });
+        updateButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentInfo = enterStudentInfoTextField.getText();
+                std.LoadWithStdNum(Integer.parseInt(studentInfo));
+                std.setEmergencyPhone(emergencyValue.getText());
+                std.Update();
+                if(std.Update()){
+                    message3.setText("Güncelleme tamamlandı.");
+                }else{
+                    message3.setText("Güncelleme başarısız.");
+
+                }
+            }
+        });
+
     }
 
     public void load(){
@@ -59,6 +128,8 @@ public class StudentInfo extends JFrame{
 
     }
 }
+
+
 
 
 
