@@ -1,0 +1,4 @@
+100,Öğrenci
+101,Öğretmen
+102,Yönetici
+103,Destek Personeli

@@ -1,0 +1,8 @@
+1,A RH+
+2,A RH-
+3,B RH+
+4,B RH-
+5,AB RH+
+6,AB RH-
+7,0 RH+
+8,0 RH-
