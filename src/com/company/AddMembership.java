@@ -5,8 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -46,13 +48,10 @@ public class AddMembership{
                 String[] str = selectedStd.split(" ");
                 std.LoadWithStdNum(Integer.parseInt(str[0]));
                 mem.setStudentId(std.getRecordId());
-                /*Date date= null;
-                try {
-                    date = new SimpleDateFormat("YYYY-mm-dd").parse(startDateField.getText().toString());
-                } catch (ParseException parseException) {
-                    parseException.printStackTrace();
-                }
-                mem.setStartDate(date);*/
+                Date date= null;
+                date = Timestamp.valueOf(startDateField.getText().toString() + " " + LocalTime.now());
+                System.out.println(date);
+                mem.setStartDate(date);
                 mem.setPaid(isPaidCheckBox.isSelected());
                 if(isPaidCheckBox.isSelected())
                     isPaidLabel.setText("Üyelik Aktif Edildi!");
