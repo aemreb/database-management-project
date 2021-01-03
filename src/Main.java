@@ -12,6 +12,7 @@ public class Main extends JPanel{
     private JPanel firstPanel;
     private JButton addMembershipButton;
     private JButton raporlamaButton;
+    private JButton calışanMesaiListesiButton;
 
     public Main() {
         ogrenciSorgulaButton.addActionListener(new ActionListener() {
@@ -50,6 +51,13 @@ public class Main extends JPanel{
             }
         });
 
+        calışanMesaiListesiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ShowEmployee().load();
+
+            }
+        });
     }
 
 
