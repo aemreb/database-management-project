@@ -92,14 +92,12 @@ public class Membership  implements IDBOperation{
 
         StringBuilder sql = new StringBuilder();
         sql.append( "INSERT INTO MEMBERSHIP ");
-        sql.append( "(STUDENT_ID, STARTED_DATE, STATUS, ISPAID, MEMBERSHIP_TYPE_ID)");
+        sql.append( "(STUDENT_ID, STARTED_DATE, ISPAID, MEMBERSHIP_TYPE_ID)");
         sql.append(" VALUES(");
         sql.append(studentId);
-        sql.append(",");
+        sql.append(",'");
         sql.append(startDate);
-        sql.append(",");
-        sql.append(statusId);
-        sql.append(",");
+        sql.append("',");
         sql.append(isPaid);
         sql.append(",");
         sql.append(membershipTypeId);

@@ -183,16 +183,16 @@ order by count(emp.offday) > 2;
 create or replace function Info_Message()
     returns trigger as $$
 begin
-    if(new.status) then
-        raise info '% nolu kullanıcının üyeliği aktifleşti',new.record_id;
-    end if;
+    update membership
+    set status = new.ispaid
+    where record_id = new.record_id;
     return new;
 end;
 $$ language'plpgsql';
 
 create trigger Activate_Membership
-after update or insert on membership
-for each row execute procedure Info_Message();
+    after  insert on membership
+    for each row execute procedure Info_Message();
 
 
 /*Uyelik bilgisi icerisinde end_date ayarlanmasi icin trigger*/
