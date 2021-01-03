@@ -13,6 +13,7 @@ public class Main extends JPanel{
     private JButton addMembershipButton;
     private JButton raporlamaButton;
     private JButton calışanMesaiListesiButton;
+    private JButton üyeMaaşlarıHesaplaButton;
 
     public Main() {
         ogrenciSorgulaButton.addActionListener(new ActionListener() {
@@ -56,6 +57,13 @@ public class Main extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 new ShowEmployee().load();
 
+            }
+        });
+
+        üyeMaaşlarıHesaplaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new IncomeforMember().load();
             }
         });
     }
