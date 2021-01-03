@@ -1,4 +1,5 @@
 import com.company.AddStudent;
+import com.company.DialogWindow;
 import com.company.Student;
 
 import javax.swing.*;
@@ -73,23 +74,20 @@ public class StudentInfo extends JFrame{
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentInfo = enterStudentInfoTextField.getText();
-                std.LoadWithStdNum(Integer.parseInt(studentInfo));
-                std.setAge(Integer.parseInt(yasValue.getText()));
-                std.Update();
-                if(std.Update()){
-                    message1.setText("Güncelleme tamamlandı.");
-                }else{
-                    message1.setText("Güncelleme başarısız.");
 
-                }
+                new DialogWindow();
+
+
 
             }
         });
         updateButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentInfo = enterStudentInfoTextField.getText();
+
+                new DialogWindow();
+
+                studentInfo = enterStudentInfoTextField.getText(); //DialogWindow içine alınacak
                 std.LoadWithStdNum(Integer.parseInt(studentInfo));
                 std.setPhone(telefonValue.getText());
                 std.Update();
@@ -104,7 +102,10 @@ public class StudentInfo extends JFrame{
         updateButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentInfo = enterStudentInfoTextField.getText();
+
+                new DialogWindow();
+
+                studentInfo = enterStudentInfoTextField.getText(); //DialogWindow içine alınacak
                 std.LoadWithStdNum(Integer.parseInt(studentInfo));
                 std.setEmergencyPhone(emergencyValue.getText());
                 std.Update();
