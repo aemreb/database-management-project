@@ -1,5 +1,3 @@
-import com.company.AddStudent;
-import com.company.DialogWindow;
 import com.company.Student;
 
 import javax.swing.*;
@@ -18,22 +16,22 @@ public class StudentInfo extends JFrame{
     private JLabel isimValue;
     private JLabel soyisimValue;
     private JLabel tcValue;
-    private JLabel yasValue;
-    private JLabel telefonValue;
-    private JLabel emergencyValue;
+    private JTextField yasValue;
+    private JTextField telefonValue;
+    private JTextField emergencyValue;
     private JLabel emailValue;
     private JLabel adresValue;
     private JPanel studentInfoPanel;
     private JTextField enterStudentInfoTextField;
     private JButton searchButton;
     private JButton deleteButton;
-    private JButton updateButton;
-    private JButton updateButton1;
-    private JButton updateButton2;
-    private JLabel message1;
-    private JLabel message2;
-    private JLabel message;
-    private JLabel message3;
+    private JButton updateAgeButton;
+    private JButton updatePhoneButton;
+    private JButton updateEmergencyButton;
+    private JLabel messageAge;
+    private JLabel messagePhone;
+    private JLabel messageDelete;
+    private JLabel messageEmergency;
     private JFrame frame= new JFrame();
     private String studentInfo;
 
@@ -45,76 +43,63 @@ public class StudentInfo extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 studentInfo = enterStudentInfoTextField.getText();
-                std.LoadWithStdNum(Integer.parseInt(studentInfo));
-                isimValue.setText(std.getName());
-                soyisimValue.setText(std.getSurname());
-                tcValue.setText(std.getIdentityNum());
-                yasValue.setText(std.getAge().toString());
-                telefonValue.setText(std.getPhone());
-                emergencyValue.setText(std.getEmergencyPhone());
-                emailValue.setText(std.getEmail());
-                adresValue.setText(std.getAddress());
+               if( std.LoadWithStdNum(Integer.parseInt(studentInfo))) {
+                   isimValue.setText(std.getName());
+                   soyisimValue.setText(std.getSurname());
+                   tcValue.setText(std.getIdentityNum());
+                   yasValue.setText(std.getAge().toString());
+                   telefonValue.setText(std.getPhone());
+                   emergencyValue.setText(std.getEmergencyPhone());
+                   emailValue.setText(std.getEmail());
+                   adresValue.setText(std.getAddress());
+               }
+               else{
+                   messageDelete.setText(studentInfo+" nolu öğrenci bulunamadı");
+               }
 
             };
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentInfo = enterStudentInfoTextField.getText();
-                std.LoadWithStdNum(Integer.parseInt(studentInfo));
-                std.Delete();
                 if(std.Delete()){
-                    message.setText(std.getStudentNum() + " numaralı öğrenci silindi.");
+                    messageDelete.setText(std.getStudentNum() + " numaralı öğrenci silindi.");
                 }else{
-                    message.setText("Öğrenci silinemedi.");
+                    messageDelete.setText("Öğrenci silinemedi.");
 
                 }
             };
         });
-        updateButton.addActionListener(new ActionListener() {
+        updateAgeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                new DialogWindow();
-
-
-
+                std.setAge(Integer.parseInt(yasValue.getText()));
+                if(std.Update())
+                    messageAge.setText("Yaş Başarıyla Güncellendi!");
+                else
+                    messageAge.setText("Güncelleme Gerçekleştirilemedi!");
             }
         });
-        updateButton1.addActionListener(new ActionListener() {
+        updatePhoneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                new DialogWindow();
-
-                studentInfo = enterStudentInfoTextField.getText(); //DialogWindow içine alınacak
-                std.LoadWithStdNum(Integer.parseInt(studentInfo));
                 std.setPhone(telefonValue.getText());
-                std.Update();
-                if(std.Update()){
-                    message2.setText("Güncelleme tamamlandı.");
-                }else{
-                    message2.setText("Güncelleme başarısız.");
+                if(std.Update())
+                    messagePhone.setText("Telefon Başarıyla Güncellendi!");
+                else
+                    messagePhone.setText("Güncelleme Gerçekleştirilemedi!");
 
-                }
             }
         });
-        updateButton2.addActionListener(new ActionListener() {
+        updateEmergencyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                new DialogWindow();
-
-                studentInfo = enterStudentInfoTextField.getText(); //DialogWindow içine alınacak
-                std.LoadWithStdNum(Integer.parseInt(studentInfo));
                 std.setEmergencyPhone(emergencyValue.getText());
-                std.Update();
-                if(std.Update()){
-                    message3.setText("Güncelleme tamamlandı.");
-                }else{
-                    message3.setText("Güncelleme başarısız.");
-
-                }
+                if(std.Update())
+                    messageEmergency.setText("Acil Durum Telefonu Başarıyla Güncellendi!");
+                else
+                    messageEmergency.setText("Güncelleme Gerçekleştirilemedi!");
             }
         });
 

@@ -50,7 +50,6 @@ public class AddMembership{
                 mem.setStudentId(std.getRecordId());
                 Date date= null;
                 date = Timestamp.valueOf(startDateField.getText().toString() + " " + LocalTime.now());
-                System.out.println(date);
                 mem.setStartDate(date);
                 mem.setPaid(isPaidCheckBox.isSelected());
                 if(isPaidCheckBox.isSelected())

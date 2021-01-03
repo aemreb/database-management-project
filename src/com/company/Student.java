@@ -148,8 +148,12 @@ public class Student implements IDBOperation{
             statement =  con.createStatement();
             int result = statement.executeUpdate(sql.toString());
             ResultSet rs = null;
+            System.out.println(result);
             if(result>0) {
-                rs = statement.executeQuery("SELECT MAX(STUDENT_NUM) FROM STUDENT");
+                con = db.getCon();
+                statement =  con.createStatement();
+                rs = statement.executeQuery("SELECT MAX(STUDENT_NUM) AS STUDENT_NUM FROM STUDENT");
+                rs.next();
                 studentNum = rs.getInt("STUDENT_NUM");
             }
             return result > 0;
@@ -164,36 +168,37 @@ public class Student implements IDBOperation{
         sql.append( "UPDATE STUDENT SET ");
         sql.append("STUDENT_NUM = ");
         sql.append(studentNum);
-        sql.append( "NAME = ");
+        sql.append( ", NAME = '");
         sql.append(name);
-        sql.append(",");
-        sql.append("SURNAME = ");
+        sql.append("',");
+        sql.append("SURNAME = '");
         sql.append(surname);
-        sql.append(",");
-        sql.append("IDENTITY_NUM = ");
-        sql.append(",");
+        sql.append("',");
+        sql.append("IDENTITY_NUM = '");
+        sql.append(identityNum);
+        sql.append("',");
         sql.append("AGE = ");
         sql.append(age);
         sql.append(",");
-        sql.append("PHONE = ");
+        sql.append("PHONE = '");
         sql.append(phone);
-        sql.append(",");
-        sql.append("EMERGENY_PHONE = ");
+        sql.append("',");
+        sql.append("EMERGENCY_PHONE = '");
         sql.append(emergencyPhone);
-        sql.append(",");
-        sql.append("EMAIL = ");
+        sql.append("',");
+        sql.append("EMAIL = '");
         sql.append(email);
-        sql.append(",");
-        sql.append("ADDRESS = ");
+        sql.append("',");
+        sql.append("ADDRESS = '");
         sql.append(address);
-        sql.append(" WHERE RECORD_ID = ");
+        sql.append("' WHERE RECORD_ID = ");
         sql.append(recordId);
-
         try {
             con = db.getCon();
             statement =  con.createStatement();
-            boolean result = statement.execute(sql.toString());
-            return result;
+            int result = statement.executeUpdate(sql.toString());
+            System.out.println(result);
+            return result > 0;
         } catch (SQLException throwables) {
             return false;
         }
@@ -205,8 +210,9 @@ public class Student implements IDBOperation{
         try {
             con = db.getCon();
             statement =  con.createStatement();
-            boolean result = statement.execute(sql.toString());
-            return result;
+            int result = statement.executeUpdate(sql.toString());
+
+            return result > 0;
         } catch (SQLException throwables) {
             return false;
         }
@@ -239,7 +245,7 @@ public class Student implements IDBOperation{
             con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
-            if(result != null){
+            if(result.next()){
                 LoadFromResultSet(result);
                 return true;
             }

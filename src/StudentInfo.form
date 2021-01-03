@@ -121,30 +121,6 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="28e90" class="javax.swing.JLabel" binding="yasValue">
-        <constraints>
-          <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
-      <component id="1a269" class="javax.swing.JLabel" binding="telefonValue">
-        <constraints>
-          <grid row="11" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
-      <component id="719d7" class="javax.swing.JLabel" binding="emergencyValue">
-        <constraints>
-          <grid row="13" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
       <component id="b9497" class="javax.swing.JLabel" binding="emailValue">
         <constraints>
           <grid row="15" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -237,15 +213,7 @@
           <text value="Sil"/>
         </properties>
       </component>
-      <component id="d7bf6" class="javax.swing.JButton" binding="updateButton">
-        <constraints>
-          <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Güncelle"/>
-        </properties>
-      </component>
-      <component id="3ce0" class="javax.swing.JButton" binding="updateButton1">
+      <component id="3ce0" class="javax.swing.JButton" binding="updatePhoneButton">
         <constraints>
           <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -253,7 +221,7 @@
           <text value="Güncelle"/>
         </properties>
       </component>
-      <component id="da22e" class="javax.swing.JButton" binding="updateButton2">
+      <component id="da22e" class="javax.swing.JButton" binding="updateEmergencyButton">
         <constraints>
           <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -261,7 +229,7 @@
           <text value="Güncelle"/>
         </properties>
       </component>
-      <component id="36e05" class="javax.swing.JLabel" binding="message">
+      <component id="36e05" class="javax.swing.JLabel" binding="messageDelete">
         <constraints>
           <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -269,7 +237,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="61f7a" class="javax.swing.JLabel" binding="message1">
+      <component id="61f7a" class="javax.swing.JLabel" binding="messageAge">
         <constraints>
           <grid row="9" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -277,7 +245,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="8a49" class="javax.swing.JLabel" binding="message2">
+      <component id="8a49" class="javax.swing.JLabel" binding="messagePhone">
         <constraints>
           <grid row="11" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -285,12 +253,44 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="2ad" class="javax.swing.JLabel" binding="message3">
+      <component id="2ad" class="javax.swing.JLabel" binding="messageEmergency">
         <constraints>
           <grid row="13" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value=""/>
+        </properties>
+      </component>
+      <component id="9a3b5" class="javax.swing.JTextField" binding="telefonValue">
+        <constraints>
+          <grid row="11" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="837f9" class="javax.swing.JTextField" binding="emergencyValue">
+        <constraints>
+          <grid row="13" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="fc492" class="javax.swing.JTextField" binding="yasValue">
+        <constraints>
+          <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="d7bf6" class="javax.swing.JButton" binding="updateAgeButton">
+        <constraints>
+          <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Güncelle"/>
         </properties>
       </component>
     </children>
