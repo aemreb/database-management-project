@@ -23,7 +23,7 @@ create table student(
  created_datetime timestamp default current_timestamp,
  modified_datetime timestamp default current_timestamp,
  student_num int not null,
- identity_num serial not null ,/*varchar(30) not null,*/
+ identity_num varchar(30) not null,
  name varchar(25) not null,
  surname varchar(25) not null,
  age int not null,
@@ -32,6 +32,7 @@ create table student(
  email varchar(50)not null unique,
  address varchar(25) not null,
  primary key (record_id),
+ foreign key (identity_num) references health_info(record_value),
  /*sayı kısıtı madde-3*/
  constraint CHK_Age check (age>=15)
 );
@@ -41,7 +42,7 @@ create table employee(
  type_id serial not null,
  created_datetime timestamp default current_timestamp,
  modified_datetime timestamp default current_timestamp,
- identity_num serial not null ,/*varchar(30) not null,*/
+ identity_num varchar(30) not null,
  name varchar(25) not null,
  surname varchar(25) not null,
  age int not null,
@@ -52,7 +53,8 @@ create table employee(
  salary bigint,
  offday int,
  primary key (record_id),
- foreign key (type_id) references record_type(record_id)
+ foreign key (type_id) references record_type(record_id),
+ foreign key (identity_num) references health_info(record_value)
 );
 
  create table health_info(
@@ -60,7 +62,7 @@ create table employee(
  created_datetime timestamp default current_timestamp,
  modified_datetimet timestamp default current_timestamp,
  record_type_id serial,
- record_value int unique,
+ record_value varchar(30) unique ,/*int not null */
  bill_of_health boolean,
  blood_type_id serial,
  height int,
@@ -103,7 +105,7 @@ declare
     sum_age numeric;
     i numeric;
     curs cursor for select age from student s, health_info h
-                    where h.record_type_id = 100 and h.record_value = s.record_id and h.blood_type_id = blood;
+                    where h.record_type_id > 1 and h.record_value = s.record_id and h.blood_type_id = blood;
 begin
     avg_age := 0;
     sum_age := 0;
@@ -178,19 +180,20 @@ order by count(emp.offday) > 2;
   arayüzde kayıt alırken ödeme check box ı
   tıklandığında "üyelik aktif edildi" uyarısı verir*/
 
-create trigger Activate_Membership
-after update or insert on membership
-for each row execute procedure Info_Message();
-
 create or replace function Info_Message()
     returns trigger as $$
 begin
-    if(new.ispaid) then
+    if(new.status) then
         raise info '% nolu kullanıcının üyeliği aktifleşti',new.record_id;
     end if;
     return new;
 end;
 $$ language'plpgsql';
+
+create trigger Activate_Membership
+after update or insert on membership
+for each row execute procedure Info_Message();
+
 
 /*Uyelik bilgisi icerisinde end_date ayarlanmasi icin trigger*/
 
@@ -209,7 +212,7 @@ begin
     end if;
     
     update membership
-    set new.end_date = to_timestamp(round(extract(epoch from  new.started_date)) + time_for_membership)
+    set end_date = to_timestamp(round(extract(epoch from  new.started_date)) + time_for_membership)
     where record_id = new.record_id;
 
     raise info '% nolu kullanicni sontarihi atandi',new.record_id;
