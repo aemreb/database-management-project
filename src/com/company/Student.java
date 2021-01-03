@@ -278,6 +278,25 @@ public class Student implements IDBOperation{
         return str;
     }
 
+    public int getAvgOfAge(String blood){
+        ResultSet result;
+        String sql = "SELECT bloodtype_avg(" + blood + ")";
+
+        try {
+            con = db.getCon();
+            statement = con.createStatement();
+            result = statement.executeQuery(sql);
+            if(result != null){
+                result.next();
+                return result.getInt("bloodtype_avg");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+
+        return 0;
+    }
 
     public void LoadFromResultSet(ResultSet rs){
         if(rs == null)
