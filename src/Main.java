@@ -13,6 +13,8 @@ public class Main extends JPanel{
     private JButton addMembershipButton;
     private JButton raporlamaButton;
     private JButton calışanMesaiListesiButton;
+    private JButton toplamMaasHesaplaButton;
+    private JButton izinGünleriniSıralaButton;
 
     public Main() {
         ogrenciSorgulaButton.addActionListener(new ActionListener() {
@@ -56,6 +58,20 @@ public class Main extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 new ShowEmployee().load();
 
+            }
+        });
+
+        toplamMaasHesaplaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TotalSalary().load();
+            }
+        });
+
+        izinGünleriniSıralaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new OffTimeQuery().load();
             }
         });
     }
