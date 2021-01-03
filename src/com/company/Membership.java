@@ -231,6 +231,26 @@ public class Membership  implements IDBOperation{
 
     }
 
+    public int getIncome(int memTypeId){
+        ResultSet result;
+        String sql = "SELECT income(" + memTypeId + ")";
+
+        try {
+            con = db.getCon();
+            statement = con.createStatement();
+            result = statement.executeQuery(sql);
+            if(result != null){
+                result.next();
+                return result.getInt("income");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+
+        return 0;
+    }
+
 
 
 }
