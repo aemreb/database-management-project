@@ -245,16 +245,15 @@ public class Student implements IDBOperation{
             con = db.getCon();
             statement = con.createStatement();
             ResultSet result = statement.executeQuery(sql);
-            if(result.next()){
-                LoadFromResultSet(result);
-                return true;
-            }
+
+            LoadFromResultSet(result);
+            return true;
+
         } catch (SQLException throwables) {
             return false;
         }
 
 
-        return false;
     }
 
     public String[] GetAllStudent() {
@@ -305,6 +304,7 @@ public class Student implements IDBOperation{
     }
 
     public void LoadFromResultSet(ResultSet rs){
+
         if(rs == null)
             return;
         try{
